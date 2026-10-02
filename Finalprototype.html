@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GODsPLAY | Next-Gen Cybernetic Gaming Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #050608;
+            --card-bg: rgba(22, 27, 34, 0.7);
+            --accent-color: #00f0ff;
+            --accent-pink: #ff0055;
+            --accent-hover: #00b8c4;
+            --text-main: #b3b8c5;
+            --text-heading: #ffffff;
+            --border-color: rgba(0, 240, 255, 0.25);
+            --glow-color: rgba(0, 240, 255, 0.4);
+            --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: default;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(0, 240, 255, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 70%, rgba(255, 0, 85, 0.08) 0%, transparent 40%);
+        }
+
+        /* --- BACKGROUND CYBER GRID --- */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- CUSTOM CURSOR FOLLOWER --- */
+        #cursor-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0, 240, 255, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: width 0.2s, height 0.2s;
+        }
+
+        /* --- NAVIGATION --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 8%;
+            background: rgba(5, 6, 8, 0.85);
+            backdrop-filter: blur(16px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--text-heading);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            position: relative;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+
+        .logo span {
+            color: var(--accent-color);
+            position: relative;
+        }
+
+        .logo span::after {
+            content: 'PLAY';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--accent-pink);
+            clip-path: inset(0 0 0 0);
+            animation: glitch 3s infinite alternate-reverse;
+            opacity: 0.7;
+        }
+
+        @keyframes glitch {
+            0% { clip-path: inset(20% 0 50% 0); transform: translate(-2px, 1px); }
+            5% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+            10% { clip-path: inset(0 0 0 0); transform: translate(0); }
+            100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+            cursor: pointer;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: var(--accent-color);
+            box-shadow: 0 0 10px var(--accent-color);
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--accent-color);
+            text-shadow: 0 0 8px var(--accent-color);
+        }
+
+        nav ul li a:hover::after, nav ul li a.active::after {
+            width: 100%;
+        }
+
+        .auth-btn {
+            background: linear-gradient(135deg, transparent, rgba(0, 240, 255, 0.1));
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: var(--transition);
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-btn:hover {
+            background: var(--accent-color);
+            color: #000;
+            box-shadow: 0 0 20px var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 120px 8% 50px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 700px;
+            margin-bottom: 40px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 0, 85, 0.15);
+            border: 1px solid var(--accent-pink);
+            color: var(--accent-pink);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            box-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
+        }
+
+        .hero-badge i {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.8); }
+        }
+
+        .hero-content h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            font-weight: 900;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-content h1 span {
+            color: transparent;
+            -webkit-text-stroke: 1px var(--accent-color);
+            text-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+        }
+
+        .hero-content p {
+            color: var(--text-main);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        /* --- FEATURED GAME BANNERS WITH ANIMATED HOVER --- */
+        .banner-heading {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .featured-banners {
+            display: flex;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
+
+        .banner-btn {
+            position: relative;
+            width: 220px;
+            height: 130px;
+            border-radius: 8px;
+            overflow: hidden;
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            display: flex;
+            align-items: flex-end;
+            padding: 14px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+            cursor: pointer;
+            background: #000;
+        }
+
+        .banner-btn img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease, filter 0.5s ease;
+            filter: brightness(0.6) contract(1.1);
+            z-index: 1;
+        }
+
+        .banner-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(5, 6, 8, 0.95) 10%, transparent 100%);
+            z-index: 2;
+            transition: var(--transition);
+        }
+
+        .banner-info {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            transform: translateY(5px);
+            transition: var(--transition);
+        }
+
+        .banner-title {
+            color: var(--text-heading);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            line-height: 1.2;
+        }
+
+        .banner-tag {
+            color: var(--accent-color);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .banner-btn:hover {
+            transform: translateY(-8px) scale(1.03);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.4);
+        }
+
+        .banner-btn:hover img {
+            transform: scale(1.15);
+            filter: brightness(0.95);
+        }
+
+        .banner-btn:hover .banner-info {
+            transform: translateY(0);
+        }
+
+        /* Neon Laser Border Animation for Cards */
+        .banner-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.4), transparent);
+            transition: 0.5s;
+            z-index: 4;
+        }
+
+        .banner-btn:hover::before {
+            left: 100%;
+        }
+
+        /* --- MAIN CONTAINER --- */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 8%;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: var(--text-heading);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-title i {
+            color: var(--accent-color);
+            filter: drop-shadow(0 0 10px var(--accent-color));
+        }
+
+        /* --- FILTER BUTTONS --- */
+        .filters {
+            display: flex;
+            gap: 14px;
+            margin: 30px 0 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(22, 27, 34, 0.8);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 10px 22px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent-color);
+            color: #000;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        /* --- GAME GRID & CARDS --- */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .game-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 240, 255, 0.3);
+            border-color: var(--accent-color);
+        }
+
+        .game-img-wrapper {
+            position: relative;
+            height: 190px;
+            overflow: hidden;
+        }
+
+        .game-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .game-card:hover .game-img {
+            transform: scale(1.12);
+        }
+
+        .game-info {
+            padding: 22px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(180deg, rgba(22, 27, 34, 0.5) 0%, rgba(10, 12, 16, 0.9) 100%);
+        }
+
+        .game-category {
+            font-size: 0.75rem;
+            color: var(--accent-pink);
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .game-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .game-desc {
+            font-size: 0.9rem;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .play-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            background: rgba(0, 240, 255, 0.08);
+            color: var(--accent-color);
+            padding: 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            transition: var(--transition);
+            margin-top: auto;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .play-btn:hover {
+            background: var(--accent-color);
+            color: #000;
+            box-shadow: 0 0 20px var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        /* --- MINI GAME SECTION --- */
+        .arcade-section {
+            background: linear-gradient(180deg, var(--bg-color), #080b10);
+            padding: 90px 8%;
+            text-align: center;
+            border-top: 1px solid rgba(0, 240, 255, 0.1);
+            position: relative;
+        }
+
+        .arcade-container {
+            max-width: 650px;
+            margin: 30px auto 0;
+            background: rgba(15, 20, 28, 0.9);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 35px;
+            position: relative;
+            height: 340px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(0, 240, 255, 0.1);
+        }
+
+        #target {
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, var(--accent-pink) 30%, var(--accent-color) 100%);
+            border-radius: 50%;
+            position: absolute;
+            cursor: pointer;
+            display: none;
+            box-shadow: 0 0 20px var(--accent-pink), 0 0 30px var(--accent-color);
+            animation: targetPulse 0.8s infinite alternate;
+        }
+
+        @keyframes targetPulse {
+            0% { transform: scale(0.9); }
+            100% { transform: scale(1.1); }
+        }
+
+        .arcade-stats {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .arcade-stats span {
+            color: var(--accent-color);
+            text-shadow: 0 0 10px var(--accent-color);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #030405;
+            padding: 40px 8%;
+            text-align: center;
+            color: var(--text-main);
+            border-top: 1px solid rgba(0, 240, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media(max-width: 768px) {
+            nav { display: none; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .featured-banners { justify-content: center; }
+            .banner-btn { width: 100%; max-width: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cyber Background Visuals -->
+    <div class="cyber-grid"></div>
+    <div id="cursor-glow"></div>
+
+    <header>
+        <div class="logo">GODs<span>PLAY</span></div>
+        <nav>
+            <ul>
+                <li><a href="#" class="active"><i class="fa-solid fa-house-laptop"></i> Overview</a></li>
+                <li><a href="#games"><i class="fa-solid fa-gamepad"></i> Catalog</a></li>
+                <li><a href="#arcade"><i class="fa-solid fa-bolt"></i> Quick Reflex</a></li>
+            </ul>
+        </nav>
+        <a href="#games" class="auth-btn"><i class="fa-solid fa-terminal"></i> SYSTEM PORTAL</a>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge"><i class="fa-solid fa-circle"></i> SYSTEM ONLINE • V2.6 NEXUS</div>
+            <h1>Next-Gen Cyber <span>Gaming Engine</span></h1>
+            <p>Deploy directly into high-octane browser games, immersive tactical simulators, and retro classics with zero latency and instant-launch execution.</p>
+        </div>
+
+        <div class="banner-heading"><i class="fa-solid fa-fire"></i> HIGH PRIORITY DEPLOYMENTS</div>
+        
+        <!-- Featured Banner Buttons -->
+        <div class="featured-banners">
+            <a href="https://www.google.com/logos/2010/pacman10-i.html" target="_blank" class="banner-btn" onclick="playClickSound()">
+                <img src="pacman.png" alt="Pac-Man">
+                <div class="banner-info">
+                    <span class="banner-tag"><i class="fa-solid fa-play"></i> LAUNCH NOW</span>
+                    <span class="banner-title">PAC-MAN RETRO</span>
+                </div>
+            </a>
+            
+            <a href="https://play2048.co/" target="_blank" class="banner-btn" onclick="playClickSound()">
+                <img src="2048.png" alt="2048 Puzzle">
+                <div class="banner-info">
+                    <span class="banner-tag"><i class="fa-solid fa-play"></i> LAUNCH NOW</span>
+                    <span class="banner-title">2048 STRATEGY</span>
+                </div>
+            </a>
+
+            <a href="https://krunker.io/" target="_blank" class="banner-btn" onclick="playClickSound()">
+                <img src="krunker.jpg" alt="Krunker.io">
+                <div class="banner-info">
+                    <span class="banner-tag"><i class="fa-solid fa-play"></i> LAUNCH NOW</span>
+                    <span class="banner-title">KRUNKER.IO FPS</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <div class="container" id="games">
+        <h2 class="section-title"><i class="fa-solid fa-layer-group"></i> CYBER MATRIX CATALOG</h2>
+        <p style="color: var(--text-main);">Choose a module to launch directly into an isolated cloud container tab.</p>
+        
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all" onclick="playClickSound()">ALL MODULES</button>
+            <button class="filter-btn" data-filter="arcade" onclick="playClickSound()">ARCADE & CASUAL</button>
+            <button class="filter-btn" data-filter="puzzle" onclick="playClickSound()">STRATEGY & PUZZLE</button>
+            <button class="filter-btn" data-filter="retro" onclick="playClickSound()">RETRO CLASSICS</button>
+        </div>
+
+        <div class="game-grid" id="gameGrid"></div>
+    </div>
+
+    <section class="arcade-section" id="arcade">
+        <h2 class="section-title" style="justify-content: center;"><i class="fa-solid fa-crosshair"></i> REFLEX BENCHMARK</h2>
+        <p style="color: var(--text-main); max-width: 550px; margin: 0 auto 20px;">Calibrate coordinate response speeds. Neutralize target node spawns as rapidly as possible before time expires.</p>
+        
+        <div class="arcade-container" id="arcadeBox">
+            <div class="arcade-stats">
+                SCORE: <span id="score">0</span> | TIME LEFT: <span id="timer">15</span>S
+            </div>
+            <button id="startArcade" class="auth-btn" style="margin-top: 70px;" onclick="playClickSound()"><i class="fa-solid fa-power-off"></i> INITIALIZE TEST</button>
+            <div id="target"></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="logo" style="margin-bottom: 8px;">GODs<span>PLAY</span></div>
+        <p>&copy; 2026 GODsPLAY Professional Infrastructure. All systems operational.</p>
+    </footer>
+
+    <script>
+        // --- Web Audio Synthesizer Sound Effects (No external audio file needed) ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playClickSound() {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.05);
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.05);
+        }
+
+        function playTargetHitSound() {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1800, audioCtx.currentTime + 0.08);
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.08);
+        }
+
+        // --- Custom Cursor Glow Tracker ---
+        const cursorGlow = document.getElementById('cursor-glow');
+        window.addEventListener('mousemove', (e) => {
+            cursorGlow.style.left = e.clientX + 'px';
+            cursorGlow.style.top = e.clientY + 'px';
+        });
+
+        // --- Functional External Game Database ---
+        const gamesData = [
+            { 
+                title: "Pac-Man (Google Retro)", 
+                category: "retro", 
+                desc: "The classic arcade maze chase experience optimized for modern web engines.", 
+                image: "pacman.png", 
+                link: "https://www.google.com/logos/2010/pacman10-i.html" 
+            },
+            { 
+                title: "2048 Puzzle", 
+                category: "puzzle", 
+                desc: "Combine matching tiles strategically to achieve the elusive 2048 block value.", 
+                image: "2048.png", 
+                link: "https://play2048.co/" 
+            },
+            { 
+                title: "HexGL Futuristic Racing", 
+                category: "arcade", 
+                desc: "High-speed futuristic WebGL racing simulation powered by HTML5 Canvas.", 
+                image: "Hexa.jpg", 
+                link: "https://www.html5gamedevs.com/topic/403-hexgl-html5-futuristic-racing-game/" 
+            },
+            { 
+                title: "Google T-Rex Runner", 
+                category: "retro", 
+                desc: "The timeless offline side-scrolling obstacle avoidance runner test.", 
+                image: "trex.png", 
+                link: "https://trex-runner.com/" 
+            },
+            { 
+                title: "Sudoku Expert Matrix", 
+                category: "puzzle", 
+                desc: "Logical number placement grid to test advanced cognitive deduction metrics.", 
+                image: "Sudoku.jpg", 
+                link: "https://sudoku.com/" 
+            },
+            { 
+                title: "Krunker.io Tactical", 
+                category: "arcade", 
+                desc: "Fast-paced browser first-person multiplayer tactical combat environment.", 
+                image: "krunker.jpg", 
+                link: "https://krunker.io/" 
+            }
+        ];
+
+        const gameGrid = document.getElementById('gameGrid');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+
+        // Function to render games dynamically
+        function displayGames(filter) {
+            gameGrid.innerHTML = "";
+            const filteredGames = filter === 'all' ? gamesData : gamesData.filter(game => game.category === filter);
+            
+            filteredGames.forEach(game => {
+                const card = document.createElement('div');
+                card.classList.add('game-card');
+                card.innerHTML = `
+                    <div class="game-img-wrapper">
+                        <img src="${game.image}" alt="${game.title}" class="game-img">
+                    </div>
+                    <div class="game-info">
+                        <span class="game-category">${game.category}</span>
+                        <h3 class="game-title">${game.title}</h3>
+                        <p class="game-desc">${game.desc}</p>
+                        <a href="${game.link}" target="_blank" rel="noopener noreferrer" class="play-btn" onclick="playClickSound()">
+                            <i class="fa-solid fa-bolt"></i> LAUNCH GAME <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.8rem;"></i>
+                        </a>
+                    </div>
+                `;
+                gameGrid.appendChild(card);
+            });
+        }
+
+        // Initialize grid
+        displayGames('all');
+
+        // Filter event listeners
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                displayGames(button.getAttribute('data-filter'));
+            });
+        });
+
+        // --- Mini-Game Logic ---
+        const startBtn = document.getElementById('startArcade');
+        const target = document.getElementById('target');
+        const scoreDisplay = document.getElementById('score');
+        const timerDisplay = document.getElementById('timer');
+        const arcadeBox = document.getElementById('arcadeBox');
+
+        let score = 0;
+        let timeLeft = 15;
+        let timerInterval;
+
+        function moveTarget() {
+            const maxX = arcadeBox.clientWidth - 70;
+            const maxY = arcadeBox.clientHeight - 70;
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+            
+            target.style.left = randomX + 'px';
+            target.style.top = randomY + 'px';
+        }
+
+        startBtn.addEventListener('click', () => {
+            score = 0;
+            timeLeft = 15;
+            scoreDisplay.textContent = score;
+            timerDisplay.textContent = timeLeft;
+            startBtn.style.display = 'none';
+            target.style.display = 'block';
+            moveTarget();
+
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    target.style.display = 'none';
+                    startBtn.style.display = 'inline-block';
+                    startBtn.innerHTML = `<i class="fa-solid fa-rotate-right"></i> RESTART TEST (SCORE: ${score})`;
+                }
+            }, 1000);
+        });
+
+        target.addEventListener('click', () => {
+            playTargetHitSound();
+            score++;
+            scoreDisplay.textContent = score;
+            moveTarget();
+        });
+    </script>
+</body>
+</html>
